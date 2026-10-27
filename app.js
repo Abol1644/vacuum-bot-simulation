@@ -103,6 +103,213 @@
         const sound = new SoundEngine();
 
         /**************************************************************
+         * I18N
+         **************************************************************/
+        const I18N = {
+            en: {
+                title: "RoboClean AI: 20-Room Vacuum Simulation",
+                badge_sim: "20-Square House Sim",
+                subtitle: "Multi-Agent Spatial Memory & Foraging Efficiency",
+                rule_clean: "Dirty Room Cleaned:",
+                rule_move: "Every Move:",
+                rule_duration: "Duration:",
+                btn_start: "Start Run",
+                btn_step: "Step +1",
+                btn_newrun: "Randomize New Run",
+                move_counter: "Move Counter:",
+                dirty_left: "Dirty Left:",
+                speed: "Speed:",
+                initial_dirt: "Initial Dirt:",
+                opt_100: "100% (20 sq)",
+                opt_80: "80% (16 sq)",
+                opt_60: "60% (12 sq)",
+                bot_memory_viz: "Bot Memory Visualization:",
+                mem_all: "All Memories",
+                mem_b1: "B1: Zig-Zag",
+                mem_b2: "B2: Explorer",
+                mem_b3: "B3: Scatter",
+                legend_dirty: "Dirty Square (+3)",
+                legend_clean: "Clean Square (0)",
+                legend_mem_cleaned: "Memory: Cleaned Dirt Here",
+                legend_mem_visited: "Memory: Visited (Was Clean)",
+                neural_telemetry: "Neural Decision Telemetry",
+                state_ready: "READY",
+                log_placeholder: 'Press "Start Run" or "Step +1" to launch the 36-move autonomous cleaning cycle...',
+                analytics_title: "Performance Analytics & 36-Move Telemetry",
+                analytics_subtitle: "Real-time score trajectories, point breakdown, and memory efficiency metrics",
+                winner_default: "Run Complete!",
+                chart1_title: "Cumulative Net Score Trajectory (Moves 0 → 36)",
+                chart2_title: "Score Breakdown: Gross Clean Pts vs Move Penalty vs Net",
+                chart2_sub: "Comparative Bars",
+                th_bot: "Vacuum Bot & Personality",
+                th_cleaned: "Dirty Rooms Cleaned",
+                th_gross: "Gross Clean Pts (+3)",
+                th_moves: "Moves Made (-1)",
+                th_visited: "Unique Rooms Visited",
+                th_revisit: "Re-Visit Waste",
+                th_net: "Final Net Score",
+                state_ready_badge: "READY ({current}/{max})",
+                state_running_badge: "RUNNING ({current}/36)",
+                state_completed_badge: "COMPLETED (36/36)",
+                btn_pause: "Pause Run",
+                btn_restart: "Restart Run",
+                btn_resume: "Resume Run",
+                new_house_log: "New 20-square house generated ({d} dirty squares). Bots spawned at random rooms.",
+                dirt_spawn_log: "Move {move}: {room} — memory invalidated",
+                popup_clean: "+3 Clean! (-1 Move)",
+                popup_move: "-1 Move",
+                clean_step: "+3 Clean (-1 Move = +2)",
+                move_step: "-1 Move",
+                init_reason: "Initialized at {room}",
+                last_reason: "{reason} → {room} ({delta})",
+                finish_winner: "Run Complete! Winner: {name} ({badge}) with {score} pts ({rooms} rooms cleaned)",
+                finish_log: "★ 36-MOVE SIMULATION COMPLETE! Winner: {name} ({score} pts) ★",
+                net_score: "Net Score",
+                cleaned_label: "Cleaned (+3)",
+                moves_label: "Moves (-1)",
+                memory_map: "Memory Map",
+                status: "Status",
+                rooms_suffix: "rooms",
+                mem_cleaned_title: "Remembered: Cleaned (+3)",
+                mem_visited_title: "Remembered: Visited (Clean)",
+                mem_unvisited_title: "Unvisited in Memory",
+                bot0_name: "SweepBot Alpha",
+                bot0_badge: "Methodical Lawn-Mower",
+                bot0_desc: "Prefers systematic horizontal sweeps and strongly avoids squares already stored in its internal memory.",
+                bot1_name: "Curious Scout",
+                bot1_badge: "Memory-Guided Explorer",
+                bot1_desc: "Uses breadth-first spatial memory to plot paths toward unvisited sectors and sniff out adjacent dirty rooms.",
+                bot2_name: "Chaos Hopper",
+                bot2_badge: "Impulsive Sprinter",
+                bot2_desc: "Moves with erratic high-energy momentum; remembers rooms it cleaned, yet 45% of the time gambles on random turns."
+            },
+            fa: {
+                title: "روبوکلین AI: شبیه‌سازی جاروبرقی ۲۰ اتاق",
+                badge_sim: "شبیه‌سازی خانه ۲۰ خانه‌ای",
+                subtitle: "حافظهٔ فضایی چندعاملی و کارایی جمع‌آوری",
+                rule_clean: "اتاق کثیف تمیز شد:",
+                rule_move: "هر حرکت:",
+                rule_duration: "مدت:",
+                btn_start: "شروع اجرا",
+                btn_step: "گام +۱",
+                btn_newrun: "اجرای جدید تصادفی",
+                move_counter: "شمارندهٔ حرکت:",
+                dirty_left: "کثیف مانده:",
+                speed: "سرعت:",
+                initial_dirt: "کثیفی اولیه:",
+                opt_100: "۱۰۰٪ (۲۰ خانه)",
+                opt_80: "۸۰٪ (۱۶ خانه)",
+                opt_60: "۶۰٪ (۱۲ خانه)",
+                bot_memory_viz: "نمایش حافظهٔ ربات:",
+                mem_all: "همهٔ حافظه‌ها",
+                mem_b1: "B1: زیگزاگ",
+                mem_b2: "B2: کاوشگر",
+                mem_b3: "B3: پراکنده",
+                legend_dirty: "خانهٔ کثیف (+۳)",
+                legend_clean: "خانهٔ تمیز (۰)",
+                legend_mem_cleaned: "حافظه: اینجا کثیفی تمیز شد",
+                legend_mem_visited: "حافظه: بازدید شده (تمیز بود)",
+                neural_telemetry: "تله‌متری تصمیم عصبی",
+                state_ready: "آماده",
+                log_placeholder: '«شروع اجرا» یا «گام +۱» را بزنید تا چرخهٔ ۳۶ حرکتهٔ خودکار آغاز شود...',
+                analytics_title: "تحلیل عملکرد و تله‌متری ۳۶ حرکت",
+                analytics_subtitle: "مسیر امتیاز، تفکیک امتیاز و سنجه‌های کارایی حافظه در زمان واقعی",
+                winner_default: "اجرا کامل شد!",
+                chart1_title: "مسیر تجمعی امتیاز خالص (حرکت ۰ → ۳۶)",
+                chart2_title: "تفکیک امتیاز: امتیاز تمیزی ناخالص در برابر جریمهٔ حرکت در برابر خالص",
+                chart2_sub: "میله‌های مقایسه‌ای",
+                th_bot: "جاروبرقی و شخصیت",
+                th_cleaned: "اتاق‌های کثیف تمیز شده",
+                th_gross: "امتیاز تمیزی ناخالص (+۳)",
+                th_moves: "حرکت‌های انجام‌شده (-۱)",
+                th_visited: "اتاق‌های یکتا بازدید شده",
+                th_revisit: "اتلاف بازدید مجدد",
+                th_net: "امتیاز خالص نهایی",
+                state_ready_badge: "آماده ({current}/{max})",
+                state_running_badge: "در حال اجرا ({current}/۳۶)",
+                state_completed_badge: "کامل شد (۳۶/۳۶)",
+                btn_pause: "مکث اجرا",
+                btn_restart: "شروع دوبارهٔ اجرا",
+                btn_resume: "ادامهٔ اجرا",
+                new_house_log: "خانهٔ {d} خانهٔ کثیف تولید شد. ربات‌ها در اتاق‌های تصادفی مستقر شدند.",
+                dirt_spawn_log: "حرکت {move}: {room} — حافظهٔ نامعتبر شد",
+                popup_clean: "+۳ تمیز! (-۱ حرکت)",
+                popup_move: "-۱ حرکت",
+                clean_step: "+۳ تمیز (-۱ حرکت = +۲)",
+                move_step: "-۱ حرکت",
+                init_reason: "مستقر در {room}",
+                last_reason: "{reason} → {room} ({delta})",
+                finish_winner: "اجرا کامل شد! برنده: {name} ({badge}) با {score} امتیاز ({rooms} اتاق تمیز شده)",
+                finish_log: "★ شبیه‌سازی ۳۶ حرکته کامل شد! برنده: {name} ({score} امتیاز) ★",
+                net_score: "امتیاز خالص",
+                cleaned_label: "تمیز شده (+۳)",
+                moves_label: "حرکت‌ها (-۱)",
+                memory_map: "نقشهٔ حافظه",
+                status: "وضعیت",
+                rooms_suffix: "اتاق",
+                mem_cleaned_title: "به یاد دارد: تمیز کرد (+۳)",
+                mem_visited_title: "به یاد دارد: بازدید کرد (تمیز بود)",
+                mem_unvisited_title: "در حافظه دیده نشده",
+                bot0_name: "جاروبرقی آلفا",
+                bot0_badge: "چمن‌زن روشمند",
+                bot0_desc: "پیمایش افقی نظام‌مند را ترجیح می‌دهد و به‌شدت از خانه‌هایی که در حافظهٔ داخلی‌اش ذخیره شده‌اند پرهیز می‌کند.",
+                bot1_name: "کاوشگر کنجکاو",
+                bot1_badge: "کاوشگر هدایت‌شده با حافظه",
+                bot1_desc: "از حافظهٔ فضایی جستجوی اول‌عرض برای ترسیم مسیر به سمت بخش‌های دیده‌نشده و بو کشیدن اتاق‌های کثیف مجاور استفاده می‌کند.",
+                bot2_name: "پرش‌کن آشوب",
+                bot2_badge: "اسپرینتر تکانشی",
+                bot2_desc: "با مومنتوم پر انرژی و نامنظم حرکت می‌کند؛ اتاق‌هایی را که تمیز کرده به یاد می‌آورد، اما ۴۵٪ مواقع روی گردش‌های تصادفی شرط‌بندی می‌کند."
+            }
+        };
+
+        function getStoredLang() {
+            try { return localStorage.getItem('robclean.lang') || 'en'; } catch (e) { return 'en'; }
+        }
+        function setStoredLang(lang) {
+            try { localStorage.setItem('robclean.lang', lang); } catch (e) {}
+        }
+        let currentLang = getStoredLang();
+        if (currentLang !== 'en' && currentLang !== 'fa') currentLang = 'en';
+
+        function t(key, params) {
+            const dict = I18N[currentLang] || I18N.en;
+            let str = Object.prototype.hasOwnProperty.call(dict, key) ? dict[key] : undefined;
+            if (str == null) {
+                console.warn('Missing i18n key:', key);
+                str = (I18N.en && Object.prototype.hasOwnProperty.call(I18N.en, key)) ? I18N.en[key] : key;
+            }
+            if (params) {
+                str = String(str).replace(/\{(\w+)\}/g, function (_, k) {
+                    return (params[k] != null) ? params[k] : '{' + k + '}';
+                });
+            }
+            return str;
+        }
+
+        function applyLanguage() {
+            currentLang = getStoredLang();
+            if (currentLang !== 'en' && currentLang !== 'fa') currentLang = 'en';
+            const html = document.documentElement;
+            html.lang = currentLang;
+            html.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+            document.body.classList.toggle('lang-fa', currentLang === 'fa');
+
+            document.querySelectorAll('[data-i18n]').forEach(function (el) {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = t(key);
+            });
+            document.title = t('title');
+
+            const btnLang = document.getElementById('btnLang');
+            if (btnLang) btnLang.textContent = currentLang === 'en' ? 'FA' : 'EN';
+
+            if (typeof renderBotCards === 'function') renderBotCards();
+            if (typeof renderStatsTable === 'function') renderStatsTable();
+            if (typeof updateHUD === 'function') updateHUD();
+            if (typeof drawAllCharts === 'function') drawAllCharts();
+        }
+
+        /**************************************************************
          * 2. HOUSE LAYOUT & SIMULATION CONSTANTS (5x4 = 20 Squares)
          **************************************************************/
         const COLS = 5;
@@ -297,16 +504,16 @@ let spawnedDirtCount = 0;
                     revisits: 0,
                     score: 0,
                     scoreHistory: [0],
-                    lastReason: "Initialized at " + ROOM_NAMES[startIdx]
+                    lastReason: t('init_reason', { room: ROOM_NAMES[startIdx] })
                 };
             });
 
             document.getElementById('winnerBanner').classList.add('hidden');
-            document.getElementById('simStateBadge').textContent = "READY (0/36)";
+            document.getElementById('simStateBadge').textContent = t('state_ready_badge', { current: 0, max: MAX_MOVES });
             document.getElementById('simStateBadge').className = "text-[11px] mono px-2 py-0.5 rounded bg-slate-800 text-slate-300";
 
             const logEl = document.getElementById('actionLog');
-            logEl.innerHTML = `<div class="text-cyan-400">New 20-square house generated (${countDirtyRooms()} dirty squares). Bots spawned at random rooms.</div>`;
+            logEl.innerHTML = `<div class="text-cyan-400">${t('new_house_log', { d: countDirtyRooms() })}</div>`;
 
             renderBotCards();
             updateHUD();
@@ -456,7 +663,7 @@ let spawnedDirtCount = 0;
                     }
                     dirtyRoom(chosen, { invalidateMemory: true });
                     spawnedDirtCount++;
-                    appendLog(`<span class="text-amber-400">Move ${currentMove}: ${rooms[chosen].name} — memory invalidated</span>`);
+                    appendLog(`<span class="text-amber-400">${t('dirt_spawn_log', { move: currentMove, room: rooms[chosen].name })}</span>`);
                 }
             }
 
@@ -505,24 +712,24 @@ let spawnedDirtCount = 0;
                     bot.memory[next.idx] = 2;
 
                     sound.playClean(bot.id);
-                    spawnFloatingPopup(next.c, next.r, `+3 Clean! (-1 Move)`, bot.color);
+                    spawnFloatingPopup(next.c, next.r, t('popup_clean'), bot.color);
                 } else {
                     // Room was already clean. If not already marked as "2" (cleaned by self earlier), mark as "1" (visited & clean)
                     if (bot.memory[next.idx] === 0) {
                         bot.memory[next.idx] = 1;
                     }
-                    spawnFloatingPopup(next.c, next.r, `-1 Move`, "#94a3b8");
+                    spawnFloatingPopup(next.c, next.r, t('popup_move'), "#94a3b8");
                 }
 
                 bot.trail.push({ r: bot.r, c: bot.c });
                 if (bot.trail.length > 10) bot.trail.shift();
 
                 bot.scoreHistory.push(bot.score);
-                bot.lastReason = `${decision.reason} → ${targetRoom.name} (${cleanedNow ? '+3 Clean, -1 Move' : '-1 Move'})`;
+                bot.lastReason = t('last_reason', { reason: decision.reason, room: targetRoom.name, delta: cleanedNow ? t('clean_step') : t('move_step') });
 
                 stepLogs.push(
                     `<span class="${bot.textClass} font-semibold">[M${currentMove} ${bot.name.split(' ')[0]}]</span> → ${targetRoom.name}: ${
-                        cleanedNow ? '<span class="text-emerald-400 font-bold">+3 Clean (-1 Move = +2)</span>' : '<span class="text-rose-400">-1 Move</span>'
+                        cleanedNow ? `<span class="text-emerald-400 font-bold">${t('clean_step')}</span>` : `<span class="text-rose-400">${t('move_step')}</span>`
                     }`
                 );
             });
@@ -542,7 +749,7 @@ let spawnedDirtCount = 0;
             updateControlButtons();
             sound.playFinish();
 
-            document.getElementById('simStateBadge').textContent = "COMPLETED (36/36)";
+            document.getElementById('simStateBadge').textContent = t('state_completed_badge');
             document.getElementById('simStateBadge').className = "text-[11px] mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
 
             // Find winner
@@ -551,9 +758,9 @@ let spawnedDirtCount = 0;
             const banner = document.getElementById('winnerBanner');
             const winnerText = document.getElementById('winnerText');
             banner.classList.remove('hidden');
-            winnerText.innerHTML = `Run Complete! Winner: <strong>${top.name}</strong> (${top.badge}) with <strong>${top.score > 0 ? '+' + top.score : top.score} pts</strong> (${top.roomsCleaned} rooms cleaned)`;
+            winnerText.innerHTML = t('finish_winner', { name: top.name, badge: top.badge, score: (top.score > 0 ? '+' + top.score : top.score), rooms: top.roomsCleaned });
 
-            appendLog(`<span class="text-amber-300 font-bold">★ 36-MOVE SIMULATION COMPLETE! Winner: ${top.name} (${top.score} pts) ★</span>`);
+            appendLog(`<span class="text-amber-300 font-bold">${t('finish_log', { name: top.name, score: top.score })}</span>`);
         }
 
         function appendLog(htmlMsg) {
@@ -614,7 +821,7 @@ let spawnedDirtCount = 0;
                     const currentRing = isBotHere ? 'ring-2 ring-white z-10 scale-110' : '';
                     miniGridCells += `
                         <div class="w-5 h-4 rounded-[3px] border ${cellBg} ${currentRing} flex items-center justify-center text-[9px] mono transition-all"
-                             title="${ROOM_NAMES[i]}: ${mState === 2 ? 'Remembered: Cleaned (+3)' : (mState === 1 ? 'Remembered: Visited (Clean)' : 'Unvisited in Memory')}">
+                              title="${ROOM_NAMES[i]}: ${mState === 2 ? t('mem_cleaned_title') : (mState === 1 ? t('mem_visited_title') : t('mem_unvisited_title'))}">
                             ${cellSymbol}
                         </div>
                     `;
@@ -627,15 +834,14 @@ let spawnedDirtCount = 0;
                             <div class="w-4 h-4 rounded-full shrink-0" style="background:${bot.color}; box-shadow: 0 0 10px ${bot.color}"></div>
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <h3 class="text-sm font-bold text-white">${bot.name}</h3>
-                                    <span class="text-[10px] px-2 py-0.5 rounded-full ${bot.bgBadge} ${bot.textClass} font-medium">${bot.badge}</span>
-                                </div>
-                                <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">${bot.description}</p>
+                                    <h3 class="text-sm font-bold text-white">${t('bot' + bot.id + '_name')}</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full ${bot.bgBadge} ${bot.textClass} font-medium">${t('bot' + bot.id + '_badge')}</span>
+                                 <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">${t('bot' + bot.id + '_desc')}</p>
                             </div>
                         </div>
                         <div class="text-right shrink-0">
-                            <div class="text-[10px] uppercase text-slate-400 font-semibold">Net Score</div>
-                            <div class="text-lg font-bold mono ${scoreColor}">${netScoreFormatted}</div>
+                            <div class="text-[10px] uppercase text-slate-400 font-semibold">${t('net_score')}</div>
+                            <div class="text-lg font-bold mono ${scoreColor} num-ltr">${netScoreFormatted}</div>
                         </div>
                     </div>
 
@@ -643,16 +849,16 @@ let spawnedDirtCount = 0;
                     <div class="mt-3 pt-2.5 border-t border-slate-800/80 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
                         <div class="grid grid-cols-3 gap-2 text-center flex-grow">
                             <div class="bg-slate-950/80 border border-slate-800/80 rounded-lg py-1.5 px-2">
-                                <div class="text-[10px] text-slate-400">Cleaned (+3)</div>
-                                <div class="text-xs font-bold mono text-emerald-400">${bot.roomsCleaned} <span class="text-[10px] text-slate-500">(+${bot.roomsCleaned * 3})</span></div>
+                                <div class="text-[10px] text-slate-400">${t('cleaned_label')}</div>
+                                <div class="text-xs font-bold mono text-emerald-400"><span class="num-ltr">${bot.roomsCleaned}</span> <span class="text-[10px] text-slate-500">(+<span class="num-ltr">${bot.roomsCleaned * 3}</span>)</span></div>
                             </div>
                             <div class="bg-slate-950/80 border border-slate-800/80 rounded-lg py-1.5 px-2">
-                                <div class="text-[10px] text-slate-400">Moves (-1)</div>
-                                <div class="text-xs font-bold mono text-rose-400">${bot.movesMade} <span class="text-[10px] text-slate-500">(-${bot.movesMade})</span></div>
+                                <div class="text-[10px] text-slate-400">${t('moves_label')}</div>
+                                <div class="text-xs font-bold mono text-rose-400"><span class="num-ltr">${bot.movesMade}</span> <span class="text-[10px] text-slate-500">(-<span class="num-ltr">${bot.movesMade}</span>)</span></div>
                             </div>
                             <div class="bg-slate-950/80 border border-slate-800/80 rounded-lg py-1.5 px-2">
-                                <div class="text-[10px] text-slate-400">Memory Map</div>
-                                <div class="text-xs font-bold mono text-cyan-300">${visitedCount}/20 <span class="text-[10px] text-emerald-400">(${cleanedMemoryCount}★)</span></div>
+                                <div class="text-[10px] text-slate-400">${t('memory_map')}</div>
+                                <div class="text-xs font-bold mono text-cyan-300"><span class="num-ltr">${visitedCount}/20</span> <span class="text-[10px] text-emerald-400">(<span class="num-ltr">${cleanedMemoryCount}</span>★)</span></div>
                             </div>
                         </div>
 
@@ -666,7 +872,7 @@ let spawnedDirtCount = 0;
                     </div>
 
                     <div class="mt-2 text-[11px] mono text-slate-400 truncate">
-                        <span class="text-slate-500">Status:</span> ${bot.lastReason}
+                        <span class="text-slate-500">${t('status')}:</span> ${bot.lastReason}
                     </div>
                 </div>
                 `;
@@ -688,17 +894,17 @@ let spawnedDirtCount = 0;
                             <div class="flex items-center gap-2.5">
                                 <span class="w-3 h-3 rounded-full shrink-0" style="background:${bot.color}"></span>
                                 <div>
-                                    <div class="font-semibold text-white">${bot.name}</div>
-                                    <div class="text-[11px] text-slate-400">${bot.badge}</div>
+                                    <div class="font-semibold text-white">${t('bot' + bot.id + '_name')}</div>
+                                    <div class="text-[11px] text-slate-400">${t('bot' + bot.id + '_badge')}</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="py-3 px-4 text-center text-emerald-300 font-semibold">${bot.roomsCleaned} rooms</td>
-                        <td class="py-3 px-4 text-center text-emerald-400">+${grossPts} pts</td>
-                        <td class="py-3 px-4 text-center text-rose-400">${movePenalty} pts (${bot.movesMade})</td>
-                        <td class="py-3 px-4 text-center text-cyan-300">${uniqueVisited} / 20 (${Math.round((uniqueVisited/20)*100)}%)</td>
-                        <td class="py-3 px-4 text-center text-amber-400">${bot.revisits} moves</td>
-                        <td class="py-3 px-4 text-right text-base ${netClass}">${netSign} pts</td>
+                        <td class="py-3 px-4 text-center text-emerald-300 font-semibold"><span class="num-ltr">${bot.roomsCleaned}</span> ${t('rooms_suffix')}</td>
+                        <td class="py-3 px-4 text-center text-emerald-400">+<span class="num-ltr">${grossPts}</span> pts</td>
+                        <td class="py-3 px-4 text-center text-rose-400"><span class="num-ltr">${movePenalty}</span> pts (<span class="num-ltr">${bot.movesMade}</span>)</td>
+                        <td class="py-3 px-4 text-center text-cyan-300"><span class="num-ltr">${uniqueVisited} / 20 (${Math.round((uniqueVisited/20)*100)}%)</span></td>
+                        <td class="py-3 px-4 text-center text-amber-400"><span class="num-ltr">${bot.revisits}</span> moves</td>
+                        <td class="py-3 px-4 text-right text-base ${netClass}"><span class="num-ltr">${netSign}</span> pts</td>
                     </tr>
                 `;
             }).join('');
@@ -1210,12 +1416,12 @@ let spawnedDirtCount = 0;
             const btnStart = document.getElementById('btnStart');
 
             if (isRunning) {
-                txtStart.textContent = "Pause Run";
+                txtStart.textContent = t('btn_pause');
                 btnStart.className = "px-4 py-2 rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-amber-600/20 transition all flex items-center gap-1.5 active:scale-95";
-                document.getElementById('simStateBadge').textContent = `RUNNING (${currentMove}/36)`;
+                document.getElementById('simStateBadge').textContent = t('state_running_badge', { current: currentMove });
                 document.getElementById('simStateBadge').className = "text-[11px] mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40";
             } else {
-                txtStart.textContent = currentMove >= MAX_MOVES ? "Restart Run" : (currentMove > 0 ? "Resume Run" : "Start Run");
+                txtStart.textContent = currentMove >= MAX_MOVES ? t('btn_restart') : (currentMove > 0 ? t('btn_resume') : t('btn_start'));
                 btnStart.className = "px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-semibold text-xs sm:text-sm shadow-lg shadow-emerald-600/20 transition all flex items-center gap-1.5 active:scale-95";
             }
         }
@@ -1255,6 +1461,12 @@ let spawnedDirtCount = 0;
             // 1 = 800ms, 2 = 580ms, 3 = 400ms, 4 = 240ms, 5 = 110ms
             const speeds = [800, 580, 400, 240, 110];
             stepDurationMs = speeds[val - 1] || 400;
+        });
+
+        document.getElementById('btnLang').addEventListener('click', () => {
+            const next = currentLang === 'en' ? 'fa' : 'en';
+            setStoredLang(next);
+            applyLanguage();
         });
 
         document.getElementById('btnSound').addEventListener('click', () => {
@@ -1299,6 +1511,7 @@ let spawnedDirtCount = 0;
         // Boot up on window load
         window.onload = function () {
             initSimulation();
+            applyLanguage();
             resizeCanvases();
             requestAnimationFrame(renderHouseCanvas);
         };

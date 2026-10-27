@@ -4,8 +4,16 @@
             color: #e2e8f0;
             overflow-x: hidden;
         }
+        body.lang-fa {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+        }
         .mono {
             font-family: 'JetBrains Mono', monospace;
+        }
+        .num-ltr {
+            direction: ltr;
+            unicode-bidi: embed;
+            display: inline-block;
         }
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
